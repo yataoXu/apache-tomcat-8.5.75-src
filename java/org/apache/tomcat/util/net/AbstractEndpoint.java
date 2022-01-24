@@ -1179,11 +1179,21 @@ public abstract class AbstractEndpoint<S> {
      * prevent invalid state transitions.
      */
 
+    //模版方法设计模式 默认 NioEndpoint
     public abstract void bind() throws Exception;
     public abstract void unbind() throws Exception;
     public abstract void startInternal() throws Exception;
     public abstract void stopInternal() throws Exception;
 
+    /**
+     * endpoint 初始化逻辑 ,通信端点，即通信监听的接口，是具体Socket接收和发送处理器，是对传输层的抽象，因此EndPoint用来实现TCP/IP协议的。
+     * 里面定义了两个内部类:Acceptor和SocketProcessor。
+     * Acceptor用于监听socket连接请求。
+     * SocketProcessor用于处理接收到的Socket请求，它实现Runnable接口在Run方法里调用协议处理组件Processor进行处理。
+     * 为了提高处理能力，SocketProcessor被提交到线程池来执行。而这个线程池叫作执行器(Executor)，
+     *
+     * @throws Exception
+     */
     public void init() throws Exception {
         if (bindOnInit) {
             bind();

@@ -795,6 +795,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
      */
     @Override
     protected void initInternal() throws LifecycleException {
+        System.out.println("Server init----->");
 
         super.initInternal();
 
@@ -838,6 +839,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
                 cl = cl.getParent();
             }
         }
+        // for循环调用service实例的init()方法
         // Initialize our defined Services
         for (Service service : services) {
             service.init();

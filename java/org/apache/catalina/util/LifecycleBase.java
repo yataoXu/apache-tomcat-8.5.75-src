@@ -133,6 +133,7 @@ public abstract class LifecycleBase implements Lifecycle {
 
         try {
             setStateInternal(LifecycleState.INITIALIZING, null, false);
+            // 该方法为一个抽象方法
             initInternal();
             setStateInternal(LifecycleState.INITIALIZED, null, false);
         } catch (Throwable t) {
@@ -142,6 +143,7 @@ public abstract class LifecycleBase implements Lifecycle {
 
 
     /**
+     * 典型的模版方法模式，把一些共有的逻辑抽象到父类中，
      * Sub-classes implement this method to perform any instance initialisation
      * required.
      *
