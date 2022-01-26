@@ -511,8 +511,8 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
                     SocketChannel socket = null;
                     try {
-                        // Accept the next incoming connection from the server
-                        // socket
+                        // 接收客户端的请求
+                        // Accept the next incoming connection from the server socket
                         socket = serverSock.accept();
 
                         SocketAddress currentRemoteAddress = socket.getRemoteAddress();

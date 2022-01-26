@@ -410,6 +410,8 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     @Override
     protected void startInternal() throws LifecycleException {
 
+        System.out.println("service start.....");
+
         if(log.isInfoEnabled()) {
             log.info(sm.getString("standardService.start.name", this.name));
         }
@@ -434,6 +436,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         synchronized (connectorsLock) {
             for (Connector connector: connectors) {
                 try {
+                    // 调用 connector start()方法
                     // If it has already failed, don't try and start it
                     if (connector.getState() != LifecycleState.FAILED) {
                         connector.start();
@@ -527,10 +530,12 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      */
     @Override
     protected void initInternal() throws LifecycleException {
+        System.out.println("service init---->");
 
         super.initInternal();
 
         if (engine != null) {
+            // 初始化engine
             engine.init();
         }
 
@@ -539,6 +544,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
             if (executor instanceof JmxEnabled) {
                 ((JmxEnabled) executor).setDomain(getDomain());
             }
+            // 初始化 executor
             executor.init();
         }
 
@@ -549,6 +555,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         synchronized (connectorsLock) {
             for (Connector connector : connectors) {
                 try {
+                    //初始化 connector
                     connector.init();
                 } catch (Exception e) {
                     String message = sm.getString(

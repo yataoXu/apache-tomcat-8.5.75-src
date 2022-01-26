@@ -614,12 +614,14 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
         endpoint.setName(endpointName.substring(1, endpointName.length()-1));
         endpoint.setDomain(domain);
 
+        // 初始化 endpoint
         endpoint.init();
     }
 
 
     @Override
     public void start() throws Exception {
+        System.out.println("protocolHandler start....");
         if (getLog().isInfoEnabled()) {
             getLog().info(sm.getString("abstractProtocolHandler.start", getName()));
         }

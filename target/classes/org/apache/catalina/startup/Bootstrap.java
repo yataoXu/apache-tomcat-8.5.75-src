@@ -250,6 +250,7 @@ public final class Bootstrap {
      */
     public void init() throws Exception {
 
+        // 初始化类加载器
         initClassLoaders();
 
         Thread.currentThread().setContextClassLoader(catalinaLoader);
@@ -278,6 +279,7 @@ public final class Bootstrap {
             startupInstance.getClass().getMethod(methodName, paramTypes);
         method.invoke(startupInstance, paramValues);
 
+        // 将 Catalina 实例 赋值给 catalinaDaemon
         catalinaDaemon = startupInstance;
     }
 
@@ -300,6 +302,7 @@ public final class Bootstrap {
             param = new Object[1];
             param[0] = arguments;
         }
+        // 在启动的时候：因为catalinaDaemon指向catalina实例，通过反射调用catalina实例中的load方法
         Method method =
             catalinaDaemon.getClass().getMethod(methodName, paramTypes);
         if (log.isDebugEnabled()) {
@@ -342,10 +345,12 @@ public final class Bootstrap {
      * @throws Exception Fatal start error
      */
     public void start() throws Exception {
+        System.out.println("Bootstrap start....");
         if (catalinaDaemon == null) {
             init();
         }
 
+        // 通过反射调用catalina的start方法
         Method method = catalinaDaemon.getClass().getMethod("start", (Class[]) null);
         method.invoke(catalinaDaemon, (Object[]) null);
     }
@@ -439,6 +444,7 @@ public final class Bootstrap {
 
 
     /**
+     * Tomcat 启动入口
      * Main method and entry point when starting Tomcat via the provided
      * scripts.
      *
@@ -451,6 +457,7 @@ public final class Bootstrap {
                 // Don't set daemon until init() has completed
                 Bootstrap bootstrap = new Bootstrap();
                 try {
+                    //1.
                     bootstrap.init();
                 } catch (Throwable t) {
                     handleThrowable(t);
@@ -481,7 +488,9 @@ public final class Bootstrap {
                 daemon.stop();
             } else if (command.equals("start")) {
                 daemon.setAwait(true);
+                // 加载各个组件
                 daemon.load(args);
+                // 启动各个组件
                 daemon.start();
                 if (null == daemon.getServer()) {
                     System.exit(1);

@@ -685,6 +685,7 @@ public class Catalina {
 
         long t1 = System.nanoTime();
 
+        // 调用server的start()方法
         // Start the new server
         try {
             getServer().start();

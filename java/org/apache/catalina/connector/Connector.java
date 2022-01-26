@@ -1086,6 +1086,7 @@ public class Connector extends LifecycleMBeanBase {
      */
     @Override
     protected void startInternal() throws LifecycleException {
+        System.out.println("Connector start ....");
 
         // Validate settings before starting
         if (getPort() < 0) {
@@ -1096,6 +1097,7 @@ public class Connector extends LifecycleMBeanBase {
         setState(LifecycleState.STARTING);
 
         try {
+            // 调用protocolHandler中的start()方法
             protocolHandler.start();
         } catch (Exception e) {
             throw new LifecycleException(

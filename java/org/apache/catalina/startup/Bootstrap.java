@@ -345,10 +345,12 @@ public final class Bootstrap {
      * @throws Exception Fatal start error
      */
     public void start() throws Exception {
+        System.out.println("Bootstrap start....");
         if (catalinaDaemon == null) {
             init();
         }
 
+        // 通过反射调用catalina的start方法
         Method method = catalinaDaemon.getClass().getMethod("start", (Class[]) null);
         method.invoke(catalinaDaemon, (Object[]) null);
     }

@@ -218,6 +218,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
     public void bind() throws Exception {
 
         if (!getUseInheritedChannel()) {
+            //绑定相应的host port,监听相应接口
             serverSock = ServerSocketChannel.open();
             socketProperties.setProperties(serverSock.socket());
             InetSocketAddress addr = (getAddress()!=null?new InetSocketAddress(getAddress(),getPort()):new InetSocketAddress(getPort()));
@@ -510,8 +511,8 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
                     SocketChannel socket = null;
                     try {
-                        // Accept the next incoming connection from the server
-                        // socket
+                        // 接收客户端的请求
+                        // Accept the next incoming connection from the server socket
                         socket = serverSock.accept();
 
                         SocketAddress currentRemoteAddress = socket.getRemoteAddress();
