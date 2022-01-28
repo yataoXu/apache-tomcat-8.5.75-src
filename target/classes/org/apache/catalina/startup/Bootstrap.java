@@ -350,7 +350,7 @@ public final class Bootstrap {
             init();
         }
 
-        // 通过反射调用catalina的start方法
+        // 通过反射调用catalina的start方法b
         Method method = catalinaDaemon.getClass().getMethod("start", (Class[]) null);
         method.invoke(catalinaDaemon, (Object[]) null);
     }

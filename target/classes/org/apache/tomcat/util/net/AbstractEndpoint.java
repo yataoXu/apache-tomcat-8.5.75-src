@@ -1321,6 +1321,7 @@ public abstract class AbstractEndpoint<S> {
      */
     public void init() throws Exception {
         if (bindOnInit) {
+            //test
             bind();
             bindState = BindState.BOUND_ON_INIT;
         }
