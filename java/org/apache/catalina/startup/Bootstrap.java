@@ -244,6 +244,7 @@ public final class Bootstrap {
 
 
     /**
+     * 初始化守护进程
      * Initialize daemon.
      *
      * @throws Exception Fatal initialization error
@@ -252,11 +253,12 @@ public final class Bootstrap {
 
         // 初始化类加载器
         initClassLoaders();
-
+        //设置当前的线程的contextClassLoader为catalinaLoader
         Thread.currentThread().setContextClassLoader(catalinaLoader);
-
+        // 通过catalinaLoader加载Catalina，并初始化startupInstance 对象
         SecurityClassLoad.securityClassLoad(catalinaLoader);
 
+        // 通过反射调用了setParentClassLoader 方法
         // Load our startup class and call its process() method
         if (log.isDebugEnabled()) {
             log.debug("Loading startup class");
@@ -285,10 +287,13 @@ public final class Bootstrap {
 
 
     /**
+     * 加载守护进程
+     * <p>
      * Load daemon.
      */
     private void load(String[] arguments) throws Exception {
 
+        //初始化classloader（包括catalinaLoader）
         // Call the load() method
         String methodName = "load";
         Object param[];
@@ -452,10 +457,11 @@ public final class Bootstrap {
 
         synchronized (daemonLock) {
             if (daemon == null) {
+                // 创建Bootstrap对象
                 // Don't set daemon until init() has completed
+                // 在 init() 完成之前不要设置守护进程
                 Bootstrap bootstrap = new Bootstrap();
                 try {
-                    //1.
                     bootstrap.init();
                 } catch (Throwable t) {
                     handleThrowable(t);
