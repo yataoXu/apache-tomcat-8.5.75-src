@@ -410,6 +410,8 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     @Override
     protected void startInternal() throws LifecycleException {
 
+        System.out.println("service start.....");
+
         if(log.isInfoEnabled()) {
             log.info(sm.getString("standardService.start.name", this.name));
         }
@@ -434,6 +436,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         synchronized (connectorsLock) {
             for (Connector connector: connectors) {
                 try {
+                    // 调用 connector start()方法
                     // If it has already failed, don't try and start it
                     if (connector.getState() != LifecycleState.FAILED) {
                         connector.start();

@@ -543,7 +543,7 @@ public class Catalina {
         initNaming();
 
         // Create and execute our Digester
-        // Digester 是tomcat解析xml工具,用于解释server.xml文件
+        // Digester是tomcat解析xml工具,这里用来解释server.xml文件
         Digester digester = createStartDigester();
 
         InputSource inputSource = null;
@@ -685,6 +685,7 @@ public class Catalina {
 
         long t1 = System.nanoTime();
 
+        // 调用server的start()方法
         // Start the new server
         try {
             getServer().start();
